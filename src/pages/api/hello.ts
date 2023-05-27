@@ -1,13 +1,20 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest } from 'next/server';
+import { NLPRequest } from '@salutejs/scenario';
+import { parse, stringify } from 'lossless-json';
+import { handleNlpRequest } from '../../scenario/scenario';
 
-type Data = {
-  name: string
-}
+export const config = {
+    runtime: 'edge',
+};
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({ name: 'John Doe' })
+export default async function handler(req: NextRequest) {
+    const body = await req.text();
+    const answer = await handleNlpRequest(parse(body) as NLPRequest);
+
+    return new Response(stringify(answer), {
+        status: 200,
+        headers: {
+            'content-type': 'application/json',
+        },
+    });
 }
