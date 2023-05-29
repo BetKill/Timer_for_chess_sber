@@ -1,7 +1,14 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState, useRef } from "react";
 import StartMenu from '../components/StartMenu.jsx';
 import ResultMenu from '../components/ResultMenu.jsx';
 import styles from '../styles/Index.module.css'
+import {
+  AssistantAppState,
+  AssistantClientCommand,
+  createAssistant,
+  createSmartappDebugger,
+  CharacterId
+} from '@salutejs/client'
 
 
 const initialState = {
@@ -14,6 +21,7 @@ const initialState = {
 };
 
 const reducer = (state: any, action: any) => {
+  console.log(action);
   switch (action.type) {
     case "SETTIME":
       return {
@@ -100,7 +108,44 @@ const Timer = (props: any) => {
 };
 
 const ChessTimer = () => {
+  const [character, setCharacter] = useState('sber' as CharacterId);
+  const assistantStateRef = useRef<AssistantAppState>({});
+  const assistantRef = useRef<ReturnType<typeof createAssistant>>();
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    const initializeAssistant = () => {
+      return createAssistant({
+        getState: () => assistantStateRef.current,
+      });
+
+      // return createSmartappDebugger({
+      //     token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJjODBiNjU3My1lNmNkLTRmNjEtYmZkOS01ZDY5ZTg2MWU4ODQiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NTQ0MDg0MCwiYXVkIjoiVlBTIiwiaWF0IjoxNjg1MzU0NDMwLCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYWZkNmRhNTQtMTMzZC00NTM0LWJiMGUtMmI5NjM2ZGExYWIzIn0.ANhJEbWKQm_pt3yrri-nowD5aJXNq7E3IcfhVrEbo21iDQEatsAB3RlSM36b-senXBgecz6Z2Ks9NN6__eRaRkWRYduZoeg6KO-9OXUD18WTHckyalFF9BLypb5Lm0xJAffqof8u0v634Bbxlh-ETchp51LTxp-dCR5MAXSoRyrBCqen7COpokEUk6ID1GrQI8YCc8r9OW39Va8RLrbU8TSOiMWBJjQU0cHsYsZVwDBKuxLJ4ZmenE3h_nQjpkpUI9SaU_vDKPzfXVje2Vi88wWEw6yoEcupEmogcGAactVvtIqMtq4MVYSNEQYTMtyvZZ6b8WrzMbg2PoafjCmO4BmY5lFciM8Hf9IW3p9pxgs5-IigjRG4K1ipPtqg4A4MFx9Dpr8Wx8If-ZmxooczFcAmlomKnKQ054e8Q41CcvDx-yjjhDxvXpFcP5QlJro73u7iF84X76mw5h9lGaZz0IXWb6ERftHJlluEzSo4lZNowvV6oUcfZ67UKAi_pKoPI3Vcecr6ZPcmxMwflGoAorpSwe16BSeVK_X6h9xjq07zAkJvwbUZhUkEUa44Z6SRkgQGH8KFssoSTxaJK_Iddqkj-m23QmEUaPme2hxBQIdD_UHh4gUI6y_o8XPmhP2XpIVqTUoQuQ5f-5E9PhG0-V2oQ6s2VSkzTG0WafELtXA',
+      //     initPhrase: 'Запусти таймер для шахмат',
+      //     getState: () => assistantStateRef.current,
+      //     nativePanel: {
+      //         defaultText: 'Покажи что-нибудь',
+      //         screenshotMode: false,
+      //         tabIndex: -1,
+      //     },
+      // });
+    };
+
+    const assistant = initializeAssistant();
+    assistant.on('data', (command: AssistantClientCommand) => {
+      switch (command.type) {
+        case 'smart_app_data':
+          dispatch(command.smart_app_data)
+          break;
+        case 'character':
+          setCharacter(command.character.id);
+          break;
+        default:
+          break;
+      }
+    });
+    assistantRef.current = assistant;
+  }, []);
 
   useEffect(() => {
     let timer: any;

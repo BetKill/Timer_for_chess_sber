@@ -11,17 +11,20 @@ import {
     createIntents,
 } from '@salutejs/scenario';
 import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory';
-import { SmartAppBrainRecognizer } from '@salutejs/recognizer-smartapp-brain';
-import {runAppHandler, noMatchHandler, closeAppHander} from './handlers'
+import { runAppHandler, noMatchHandler, closeAppHander, restart, setTime } from './handlers'
 
-const {regexp, action} = createMatchers<SaluteRequest>();
+const { regexp, action } = createMatchers<SaluteRequest>();
 
 const userScenario = createUserScenario({
-    chooseSide: {
-        match: regexp(/^(?:Я буду играть за )?(?<side>крестики|нолики)$/i, { normalized: false }),
-        handle: () => {},
-    }
-    
+    restart: {
+        match: regexp(/^Заново$/i),
+        handle: restart,
+    },
+    setTime: {
+        match: regexp(/^Поставить(?: (?<hours>\d+) час)?(?: (?<minutes>\d+) минут.)?(?: (?<seconds>\d+) секунд.)?$/i, { normalized: true }),
+        handle: setTime,
+    },
+
 });
 
 const scenarioWalker = createScenarioWalker({
@@ -30,7 +33,7 @@ const scenarioWalker = createScenarioWalker({
         NO_MATCH: noMatchHandler,
         CLOSE_APP: closeAppHander
     }),
-    recognizer: new SmartAppBrainRecognizer("7f6e8d51-dc13-4d72-a68b-e3edd27bbe6a"),
+    // recognizer: new SmartAppBrainRecognizer("9d144a19-7945-43c6-b79e-3f4f7f028a58"),
     userScenario,
 });
 
@@ -41,11 +44,11 @@ export const handleNlpRequest = async (request: NLPRequest): Promise<NLPResponse
     const req = createSaluteRequest(request);
     const res = createSaluteResponse(request);
 
+    console.log(req.request);
     const sessionId = request.uuid.userId;
     const session = await storage.resolve(sessionId);
 
     await scenarioWalker({ req, res, session });
     await storage.save({ id: sessionId, session });
-
     return res.message;
 };
