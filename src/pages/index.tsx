@@ -17,58 +17,13 @@ const initialState = {
   isTopTimerRunning: false,
   isBottomTimerRunning: false,
   startMenu: true,
-  winner: null
+  winner: null,
+  screen: 'Start'
 };
 
-const reducer = (state: any, action: any) => {
-  console.log(action);
-  switch (action.type) {
-    case "SETTIME":
-      return {
-        ...state,
-        topTimer: action.time,
-        bottomTimer: action.time,
-        startMenu: false,
-      }
-    case "START":
-      if (action.timer === "top") {
-        return { ...state, isBottomTimerRunning: true, isTopTimerRunning: false };
-      } else {
-        return { ...state, isTopTimerRunning: true, isBottomTimerRunning: false };
-      }
-    case "RESET":
-      return { ...initialState };
-    case "TICK":
-      if (state.isTopTimerRunning > 0) {
-        return {
-          ...state,
-          topTimer: state.topTimer > 0 ? state.topTimer - 1 : 0,
-        };
-      } else if (state.isBottomTimerRunning) {
-        return {
-          ...state,
-          bottomTimer: state.bottomTimer > 0 ? state.bottomTimer - 1 : 0,
-        };
-      }
-      return state;
-    case 'RESULT':
-      if (state.topTimer === 0 || state.bottomTimer === 0) {
-        return {
-          ...state,
-          resultMenu: true,
-          isTopTimerRunning: false,
-          isBottomTimerRunning: false,
-          winner: action.winner
-        }
-      }
-      return state;
-    default:
-      return state;
-  }
-};
 
 const Timer = (props: any) => {
-  const { timerName, time, isMirrored, handleStart } = props;
+  const { timerName, time, isMirrored, handleStart, color } = props;
   const formatTime = (time: any) => {
     const hours = Math.floor(time / 3600).toString().padStart(2, "0");
     const minutes = Math.floor((time % 3600) / 60).toString().padStart(2, "0");
@@ -86,12 +41,10 @@ const Timer = (props: any) => {
     width: "100%",
     fontSize: "50px",
     fontWeight: "bold",
-    backgroundColor: "#5F9EA0",
-    // color: "white", ----------------------------------------------------------------
+    backgroundColor: `${color}`,
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
-    Color: "#BA553F"
   };
 
   const divStyle = {
@@ -111,24 +64,97 @@ const ChessTimer = () => {
   const [character, setCharacter] = useState('sber' as CharacterId);
   const assistantStateRef = useRef<AssistantAppState>({});
   const assistantRef = useRef<ReturnType<typeof createAssistant>>();
+
+  const reducer = (state: any, action: any) => {
+    switch (action.type) {
+      case "SETTIME":
+        if (state.screen === 'Start') {
+          return {
+            ...state,
+            topTimer: action.time,
+            bottomTimer: action.time,
+            startMenu: false,
+            screen: 'Middle'
+          }
+        }
+        else {
+          return state;
+        }
+      case "START":
+        if (action.timer === "top") {
+          return { ...state, isBottomTimerRunning: true, isTopTimerRunning: false };
+        } else {
+          return { ...state, isTopTimerRunning: true, isBottomTimerRunning: false };
+        }
+      case "RESET":
+        return { ...initialState };
+      case "TICK":
+        if (state.isTopTimerRunning > 0) {
+          return {
+            ...state,
+            topTimer: state.topTimer > 0 ? state.topTimer - 1 : 0,
+          };
+        } else if (state.isBottomTimerRunning) {
+          return {
+            ...state,
+            bottomTimer: state.bottomTimer > 0 ? state.bottomTimer - 1 : 0,
+          };
+        }
+        return state;
+      case 'RESULT':
+        if (state.topTimer === 0 || state.bottomTimer === 0) {
+          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ? "Победили верхние" : "Победили нижние" } })
+          return {
+            ...state,
+            resultMenu: true,
+            isTopTimerRunning: false,
+            isBottomTimerRunning: false,
+            winner: action.winner,
+            screen: "END"
+          }
+        }
+        return state;
+      case 'HELP':
+        assistantRef.current?.sendAction({ type: "help", payload: { "screen": state.screen } })
+        return state;
+      case 'MOVE':
+        if (state.isBottomTimerRunning) {
+          return {
+            ...state,
+            isBottomTimerRunning: false,
+            isTopTimerRunning: true,
+          }
+        }
+        else {
+          return {
+            ...state,
+            isBottomTimerRunning: true,
+            isTopTimerRunning: false,
+          }
+        }
+      default:
+        return state;
+    }
+  };
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     const initializeAssistant = () => {
-      return createAssistant({
-        getState: () => assistantStateRef.current,
-      });
-
-      // return createSmartappDebugger({
-      //     token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJjODBiNjU3My1lNmNkLTRmNjEtYmZkOS01ZDY5ZTg2MWU4ODQiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NTQ0MDg0MCwiYXVkIjoiVlBTIiwiaWF0IjoxNjg1MzU0NDMwLCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYWZkNmRhNTQtMTMzZC00NTM0LWJiMGUtMmI5NjM2ZGExYWIzIn0.ANhJEbWKQm_pt3yrri-nowD5aJXNq7E3IcfhVrEbo21iDQEatsAB3RlSM36b-senXBgecz6Z2Ks9NN6__eRaRkWRYduZoeg6KO-9OXUD18WTHckyalFF9BLypb5Lm0xJAffqof8u0v634Bbxlh-ETchp51LTxp-dCR5MAXSoRyrBCqen7COpokEUk6ID1GrQI8YCc8r9OW39Va8RLrbU8TSOiMWBJjQU0cHsYsZVwDBKuxLJ4ZmenE3h_nQjpkpUI9SaU_vDKPzfXVje2Vi88wWEw6yoEcupEmogcGAactVvtIqMtq4MVYSNEQYTMtyvZZ6b8WrzMbg2PoafjCmO4BmY5lFciM8Hf9IW3p9pxgs5-IigjRG4K1ipPtqg4A4MFx9Dpr8Wx8If-ZmxooczFcAmlomKnKQ054e8Q41CcvDx-yjjhDxvXpFcP5QlJro73u7iF84X76mw5h9lGaZz0IXWb6ERftHJlluEzSo4lZNowvV6oUcfZ67UKAi_pKoPI3Vcecr6ZPcmxMwflGoAorpSwe16BSeVK_X6h9xjq07zAkJvwbUZhUkEUa44Z6SRkgQGH8KFssoSTxaJK_Iddqkj-m23QmEUaPme2hxBQIdD_UHh4gUI6y_o8XPmhP2XpIVqTUoQuQ5f-5E9PhG0-V2oQ6s2VSkzTG0WafELtXA',
-      //     initPhrase: 'Запусти таймер для шахмат',
-      //     getState: () => assistantStateRef.current,
-      //     nativePanel: {
-      //         defaultText: 'Покажи что-нибудь',
-      //         screenshotMode: false,
-      //         tabIndex: -1,
-      //     },
+      // return createAssistant({
+      //   getState: () => assistantStateRef.current,
       // });
+
+      return createSmartappDebugger({
+        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI2NDEwM2Q3NC0wM2RmLTQyZTYtOTgyMy0xMzZhYTI0OGY0NjAiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NTgxNjg0NywiYXVkIjoiVlBTIiwiaWF0IjoxNjg1NzMwNDM3LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYjE5NTkyYWUtNmNhZC00ZGY0LTg2MTktYTMxM2JjYmVlYjM3In0.LbWRAzXT6h7nXXt11dfcOgTKRZJPBi6y2u993mrxP4YSG4l9sNzHC8EOOqKCQdw_OFwPUwh0m3_DpV1B92Fcxj9ghnY8pVI-A-R2YppMDwQzayhf80_u_JzWJNi7J0uVC_JChdEVsrpSK8--3rbCRGHUNzd6g938Yyd9Qayvd-2fI014d6Gfa9vvRpyPPjTJwee3ru81F0-NjpLi58m2K88JwmYZ_ufqAR9EGYrbwSWoYWjlb6EbYFrPpsRfUDRaoteRRhL3JD1uSejUfLPcG1DrD8NvlfkJIAcAvtBGALOGeaI47XTqgzUcNRg-zCQYU9MU388q_aVLD8LPR9kwiymfKTv2ZLIwBP1O6sCcMreWMs3iRAVMDRKC2bWFM0JW8qgx-1qSrQgYKJgG8Nc3ho89KXVzpW0pb6R1BdkCa1Mwr5zlqf1N7gp2TFrzAm9eAPY8x68nFLIR3X2RsQAtquNMw8qFI_AWJn8ThQNgmN1uju2eAR_9m7tMu-oKsz3cQjA-cwUEK-Pd6SVRo6Qh0Mb8n11YfnJ21Dfng3pqvFDYUJraMmhNXDOyAuLW6Xe593EM7-dqj6jqrhBydM73YT8GVgKlSYeQ9DfNCs8ZQSw2bHYMsuHfXy_ifkW9VU9wB8HFHpDmvekPjdo1uu3jk48SO-0LP4zpBwz8ysh6Tjk',
+        initPhrase: 'Запусти таймер для шахмат',
+        getState: () => assistantStateRef.current,
+        nativePanel: {
+          defaultText: 'Покажи что-нибудь',
+          screenshotMode: false,
+          tabIndex: -1,
+        },
+      });
     };
 
     const assistant = initializeAssistant();
@@ -161,7 +187,7 @@ const ChessTimer = () => {
 
   useEffect(() => {
     if (state.topTimer === 0 || state.bottomTimer === 0) {
-      const winner = state.topTimer === 0 ? '1 Player' : '2 Player'
+      const winner = state.topTimer === 0 ? 'Победили верхние' : 'Победили нижние'
       dispatch({ type: "RESULT", winner: winner })
     }
   }, [state.topTimer, state.bottomTimer])
@@ -178,23 +204,27 @@ const ChessTimer = () => {
     dispatch({ type: "SETTIME", time: time });
   }
 
+  const handleHelp = () => {
+    assistantRef.current?.sendAction({ type: "help", payload: { "screen": state.screen } })
+  }
+
   return (
     <div className={styles.container}>
       {state.startMenu && <StartMenu hanleSetTime={hanleSetTime} />}
       {state.winner && <ResultMenu handleReset={handleReset} winner={state.winner} />}
       <div className={styles['timer-wrapper']}>
-        <Timer timerName="top" time={state.topTimer} isMirrored={true} handleStart={handleStart} />
+        <Timer timerName="top" time={state.topTimer} isMirrored={true} handleStart={handleStart} color={"#33cdc7"} />
       </div>
       <div className={styles.buttonContainer}>
         <button onClick={handleReset} className={styles.resetButton}>
           <img className={styles.icon} src="./restart.svg" alt="Restart" />
         </button>
-        <button className={styles.resetButton}>
+        <button onClick={handleHelp} className={styles.resetButton}>
           <img className={styles.icon} src="./question.svg" alt="Help" />
         </button>
       </div>
       <div className={styles['timer-wrapper']}>
-        <Timer timerName="bottom" time={state.bottomTimer} handleStart={handleStart} />
+        <Timer timerName="bottom" time={state.bottomTimer} handleStart={handleStart} color={"#e567b1b3"} />
       </div>
     </div>
   );
