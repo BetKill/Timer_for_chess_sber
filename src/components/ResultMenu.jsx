@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../styles/ResultMenu.module.css'
 
-export default function ResultMenu({handleReset, winner}) {
+export default function ResultMenu({ handleReset, winner }) {
     return (
         <div>
             <div className={styles['modal-container']}>

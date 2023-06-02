@@ -31,7 +31,7 @@ const userScenario = createUserScenario({
         handle: move,
     },
 
-    chooseStart:{
+    chooseStart: {
         match: regexp(/^(?:Начинать\s+)?(?<side>верхний|нижний)$/i, { normalized: true }),
         handle: chooseStart,
     },
