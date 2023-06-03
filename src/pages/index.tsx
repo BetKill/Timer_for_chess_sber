@@ -187,7 +187,7 @@ const ChessTimer = () => {
 
   useEffect(() => {
     if (state.topTimer === 0 || state.bottomTimer === 0) {
-      const winner = state.topTimer === 0 ? 'Победили верхние' : 'Победили нижние'
+      const winner = state.topTimer === 0 ? 'Победили нижние' : 'Победили верхние'
       dispatch({ type: "RESULT", winner: winner })
     }
   }, [state.topTimer, state.bottomTimer])
