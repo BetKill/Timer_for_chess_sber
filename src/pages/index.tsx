@@ -139,39 +139,39 @@ const ChessTimer = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // useEffect(() => {
-  //   const initializeAssistant = () => {
-  //     return createAssistant({
-  //       getState: () => assistantStateRef.current,
-  //     });
+  useEffect(() => {
+    const initializeAssistant = () => {
+      return createAssistant({
+        getState: () => assistantStateRef.current,
+      });
 
-  //     return createSmartappDebugger({
-  //       token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI2NDEwM2Q3NC0wM2RmLTQyZTYtOTgyMy0xMzZhYTI0OGY0NjAiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NTgxNjg0NywiYXVkIjoiVlBTIiwiaWF0IjoxNjg1NzMwNDM3LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYjE5NTkyYWUtNmNhZC00ZGY0LTg2MTktYTMxM2JjYmVlYjM3In0.LbWRAzXT6h7nXXt11dfcOgTKRZJPBi6y2u993mrxP4YSG4l9sNzHC8EOOqKCQdw_OFwPUwh0m3_DpV1B92Fcxj9ghnY8pVI-A-R2YppMDwQzayhf80_u_JzWJNi7J0uVC_JChdEVsrpSK8--3rbCRGHUNzd6g938Yyd9Qayvd-2fI014d6Gfa9vvRpyPPjTJwee3ru81F0-NjpLi58m2K88JwmYZ_ufqAR9EGYrbwSWoYWjlb6EbYFrPpsRfUDRaoteRRhL3JD1uSejUfLPcG1DrD8NvlfkJIAcAvtBGALOGeaI47XTqgzUcNRg-zCQYU9MU388q_aVLD8LPR9kwiymfKTv2ZLIwBP1O6sCcMreWMs3iRAVMDRKC2bWFM0JW8qgx-1qSrQgYKJgG8Nc3ho89KXVzpW0pb6R1BdkCa1Mwr5zlqf1N7gp2TFrzAm9eAPY8x68nFLIR3X2RsQAtquNMw8qFI_AWJn8ThQNgmN1uju2eAR_9m7tMu-oKsz3cQjA-cwUEK-Pd6SVRo6Qh0Mb8n11YfnJ21Dfng3pqvFDYUJraMmhNXDOyAuLW6Xe593EM7-dqj6jqrhBydM73YT8GVgKlSYeQ9DfNCs8ZQSw2bHYMsuHfXy_ifkW9VU9wB8HFHpDmvekPjdo1uu3jk48SO-0LP4zpBwz8ysh6Tjk',
-  //       initPhrase: 'Запусти таймер для шахмат',
-  //       getState: () => assistantStateRef.current,
-  //       nativePanel: {
-  //         defaultText: 'Покажи что-нибудь',
-  //         screenshotMode: false,
-  //         tabIndex: -1,
-  //       },
-  //     });
-  //   };
+      // return createSmartappDebugger({
+      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI2NDEwM2Q3NC0wM2RmLTQyZTYtOTgyMy0xMzZhYTI0OGY0NjAiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NTgxNjg0NywiYXVkIjoiVlBTIiwiaWF0IjoxNjg1NzMwNDM3LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYjE5NTkyYWUtNmNhZC00ZGY0LTg2MTktYTMxM2JjYmVlYjM3In0.LbWRAzXT6h7nXXt11dfcOgTKRZJPBi6y2u993mrxP4YSG4l9sNzHC8EOOqKCQdw_OFwPUwh0m3_DpV1B92Fcxj9ghnY8pVI-A-R2YppMDwQzayhf80_u_JzWJNi7J0uVC_JChdEVsrpSK8--3rbCRGHUNzd6g938Yyd9Qayvd-2fI014d6Gfa9vvRpyPPjTJwee3ru81F0-NjpLi58m2K88JwmYZ_ufqAR9EGYrbwSWoYWjlb6EbYFrPpsRfUDRaoteRRhL3JD1uSejUfLPcG1DrD8NvlfkJIAcAvtBGALOGeaI47XTqgzUcNRg-zCQYU9MU388q_aVLD8LPR9kwiymfKTv2ZLIwBP1O6sCcMreWMs3iRAVMDRKC2bWFM0JW8qgx-1qSrQgYKJgG8Nc3ho89KXVzpW0pb6R1BdkCa1Mwr5zlqf1N7gp2TFrzAm9eAPY8x68nFLIR3X2RsQAtquNMw8qFI_AWJn8ThQNgmN1uju2eAR_9m7tMu-oKsz3cQjA-cwUEK-Pd6SVRo6Qh0Mb8n11YfnJ21Dfng3pqvFDYUJraMmhNXDOyAuLW6Xe593EM7-dqj6jqrhBydM73YT8GVgKlSYeQ9DfNCs8ZQSw2bHYMsuHfXy_ifkW9VU9wB8HFHpDmvekPjdo1uu3jk48SO-0LP4zpBwz8ysh6Tjk',
+      //   initPhrase: 'Запусти таймер для шахмат',
+      //   getState: () => assistantStateRef.current,
+      //   nativePanel: {
+      //     defaultText: 'Покажи что-нибудь',
+      //     screenshotMode: false,
+      //     tabIndex: -1,
+      //   },
+      // });
+    };
 
-  //   const assistant = initializeAssistant();
-  //   assistant.on('data', (command: AssistantClientCommand) => {
-  //     switch (command.type) {
-  //       case 'smart_app_data':
-  //         dispatch(command.smart_app_data)
-  //         break;
-  //       case 'character':
-  //         setCharacter(command.character.id);
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   });
-  //   assistantRef.current = assistant;
-  // }, []);
+    const assistant = initializeAssistant();
+    assistant.on('data', (command: AssistantClientCommand) => {
+      switch (command.type) {
+        case 'smart_app_data':
+          dispatch(command.smart_app_data)
+          break;
+        case 'character':
+          setCharacter(command.character.id);
+          break;
+        default:
+          break;
+      }
+    });
+    assistantRef.current = assistant;
+  }, []);
 
   useEffect(() => {
     let timer: any;
