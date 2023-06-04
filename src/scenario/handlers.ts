@@ -5,7 +5,7 @@ export const runAppHandler: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     req.character === 'joy' ?
         res.setPronounceText("Приветствую тебя. Скажи, на какое время установить таймер.") :
         res.setPronounceText("Приветствую вас. Скажите, на какое время установить таймер.")
-    res.appendBubble("Поставь 2 часа")
+    res.appendSuggestions(['Поставь 2 часа', 'Поставь 1 час 30 минут'])
     res.setEmotion('radost')
 };
 
@@ -23,7 +23,7 @@ export const restart: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     req.character === 'joy' ?
         res.setPronounceText("Скажи, на какое время установить таймер.") :
         res.setPronounceText("Скажите, на какое время установить таймер.")
-    res.appendBubble("Поставь 2 часа")
+    res.appendSuggestions(['Поставь 2 часа', 'Поставь 1 час 30 минут'])
 };
 
 export const setTime: SaluteHandler<SaluteRequest> = ({ req, res }) => {
@@ -72,6 +72,6 @@ export const result: SaluteHandler<SaluteRequest> = ({ req, res }) => {
 
 export const chooseStart: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     const { side } = req.variables;
-    var start = side === 'нижний' ? 'top' : 'bottom';
+    var start = side === 'розовый' ? 'top' : 'bottom';
     res.appendCommand({ type: "START", timer: start });
 };

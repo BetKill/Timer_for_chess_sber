@@ -103,7 +103,7 @@ const ChessTimer = () => {
         return state;
       case 'RESULT':
         if (state.topTimer === 0 || state.bottomTimer === 0) {
-          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ? "Победили нижние" : "Победили верхние" } })
+          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ?  'Победил розовый' : 'Победил голубой' } })
           return {
             ...state,
             resultMenu: true,
@@ -146,7 +146,7 @@ const ChessTimer = () => {
       });
 
       // return createSmartappDebugger({
-      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI2NDEwM2Q3NC0wM2RmLTQyZTYtOTgyMy0xMzZhYTI0OGY0NjAiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NTgxNjg0NywiYXVkIjoiVlBTIiwiaWF0IjoxNjg1NzMwNDM3LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYjE5NTkyYWUtNmNhZC00ZGY0LTg2MTktYTMxM2JjYmVlYjM3In0.LbWRAzXT6h7nXXt11dfcOgTKRZJPBi6y2u993mrxP4YSG4l9sNzHC8EOOqKCQdw_OFwPUwh0m3_DpV1B92Fcxj9ghnY8pVI-A-R2YppMDwQzayhf80_u_JzWJNi7J0uVC_JChdEVsrpSK8--3rbCRGHUNzd6g938Yyd9Qayvd-2fI014d6Gfa9vvRpyPPjTJwee3ru81F0-NjpLi58m2K88JwmYZ_ufqAR9EGYrbwSWoYWjlb6EbYFrPpsRfUDRaoteRRhL3JD1uSejUfLPcG1DrD8NvlfkJIAcAvtBGALOGeaI47XTqgzUcNRg-zCQYU9MU388q_aVLD8LPR9kwiymfKTv2ZLIwBP1O6sCcMreWMs3iRAVMDRKC2bWFM0JW8qgx-1qSrQgYKJgG8Nc3ho89KXVzpW0pb6R1BdkCa1Mwr5zlqf1N7gp2TFrzAm9eAPY8x68nFLIR3X2RsQAtquNMw8qFI_AWJn8ThQNgmN1uju2eAR_9m7tMu-oKsz3cQjA-cwUEK-Pd6SVRo6Qh0Mb8n11YfnJ21Dfng3pqvFDYUJraMmhNXDOyAuLW6Xe593EM7-dqj6jqrhBydM73YT8GVgKlSYeQ9DfNCs8ZQSw2bHYMsuHfXy_ifkW9VU9wB8HFHpDmvekPjdo1uu3jk48SO-0LP4zpBwz8ysh6Tjk',
+      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI3Nzk3MjU4MS02NDQ0LTQxOWEtOGQwMS1jZTcyZTUxMDJmYjMiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NTk2NjUyNCwiYXVkIjoiVlBTIiwiaWF0IjoxNjg1ODgwMTE0LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYjk0NDgxODgtZGQ3Yy00ZGM1LWFmMTUtNjQ1MDgyOWRiMDdkIn0.Rvop6NTT4dQAxQHXP29mJZeVc9RL1q8LHwhmitdfT1wMbB81iCFXIZbWrDTFJ2XmYWRtNwY-L4tYLWs-7QHMpu1USAPcT-FlmQsFl13vEgoPoJn4JSpnHapClCQpRR63SsVbtZ_jVj_LPy3iq4oam69rjvuTht4-w3a-qa_f7n5yP7SU-1AGggcEfRGyKSyfUlqRoemb7Lf4oF9B-ftt5BW0g5M_SHbZRUhWbVlNAKcz_rvNXk1VS6Pqi6VP6iEzLXRJbnJFVoEWzzp9OlheyzdzTvc-EMaibNummCRxwXCvyCOwO5welk49r4g3ypyc4rxOmMsYHFf6G0vYGsfWq-pJgIFVHtZIrht2uWX3dFQke2tBmi1GdevzwHPoGqUMRcS7BaO5SCLnZ_Q2XHFqnY_qhoYxA9h4a8XqxT_517NaY3yH1UY6pq88OyqUCebD1hyBoYGgjtQjBu3Z1CMNm_4tEcPHeyvyb42clkx7wGqlUuIWaVU_pSwmmHh6lQ2CJJX_EeZCOv8ib8mc6sixAT86u9PZlBcYmPPoHfimwIR8ik66yqWMf4tqvLH4pz-enYY3YZ0SRI_BgkW3a4zmK13U76kY8VvqUdy_uwWHTQ7OsscNb1Dwka3Bd2ve0S8npkYjuOnEbx8PF_3MY6SF_OjIQek-MDFyyzMb07bVTWo',
       //   initPhrase: 'Запусти таймер для шахмат',
       //   getState: () => assistantStateRef.current,
       //   nativePanel: {
@@ -187,7 +187,7 @@ const ChessTimer = () => {
 
   useEffect(() => {
     if (state.topTimer === 0 || state.bottomTimer === 0) {
-      const winner = state.topTimer === 0 ? 'Победили нижние' : 'Победили верхние'
+      const winner = state.topTimer === 0 ? 'Победил розовый' : 'Победил голубой'
       dispatch({ type: "RESULT", winner: winner })
     }
   }, [state.topTimer, state.bottomTimer])
