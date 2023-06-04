@@ -2,7 +2,10 @@ import { SaluteHandler, SaluteRequest } from '@salutejs/scenario';
 
 
 export const runAppHandler: SaluteHandler<SaluteRequest> = ({ req, res }) => {
-    res.setPronounceText("Приветствую вас. Скажите, на какое время установить таймер.")
+    req.character === 'joy' ?
+        res.setPronounceText("Приветствую тебя. Скажи, на какое время установить таймер.") :
+        res.setPronounceText("Приветствую вас. Скажите, на какое время установить таймер.")
+    res.appendBubble("Поставь 2 часа")
     res.setEmotion('radost')
 };
 
@@ -17,7 +20,10 @@ export const closeAppHander: SaluteHandler<SaluteRequest> = ({ req, res }) => {
 
 export const restart: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     res.appendCommand({ type: 'RESET' })
-    res.setPronounceText("Скажите, на какое время установить таймер.")
+    req.character === 'joy' ?
+        res.setPronounceText("Скажи, на какое время установить таймер.") :
+        res.setPronounceText("Скажите, на какое время установить таймер.")
+    res.appendBubble("Поставь 2 часа")
 };
 
 export const setTime: SaluteHandler<SaluteRequest> = ({ req, res }) => {
@@ -41,11 +47,17 @@ export const move: SaluteHandler<SaluteRequest> = ({ req, res }) => {
 export const help: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     const { screen } = req.variables;
     if (screen === 'Start') {
-        res.setPronounceText('Скажите время, которое хотите установить на таймере');
+        req.character === 'joy' ?
+            res.setPronounceText('Скажи время, которое хочешь установить на таймере') :
+            res.setPronounceText('Скажите время, которое хотите установить на таймере')
     } else if (screen === 'Middle') {
-        res.setPronounceText('Для начала нужно сказать кто начнет, и партия начнется. Дальше по игре вы можете сказать сходил, когда совершите ход')
+        req.character === 'joy' ?
+            res.setPronounceText('Для начала нужно сказать кто начнет, и партия начнется. Дальше по игре ты можешь сказать сходил, когда совершишь ход') :
+            res.setPronounceText('Для начала нужно сказать кто начнет, и партия начнется. Дальше по игре вы можете сказать сходил, когда совершите ход')
     } else {
-        res.setPronounceText('Скажите, заново если вы хотите начать игру сначала')
+        req.character === 'joy' ?
+            res.setPronounceText('Скажи, заново если ты хочешь начать игру сначала') :
+            res.setPronounceText('Скажите, заново если вы хотите начать игру сначала')
     }
 };
 
