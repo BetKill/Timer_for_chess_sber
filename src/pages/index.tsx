@@ -103,7 +103,7 @@ const ChessTimer = () => {
         return state;
       case 'RESULT':
         if (state.topTimer === 0 || state.bottomTimer === 0) {
-          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ?  'Победил розовый' : 'Победил голубой' } })
+          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ? 'Победил розовый' : 'Победил голубой' } })
           return {
             ...state,
             resultMenu: true,
@@ -146,13 +146,13 @@ const ChessTimer = () => {
       });
 
       // return createSmartappDebugger({
-      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI3Nzk3MjU4MS02NDQ0LTQxOWEtOGQwMS1jZTcyZTUxMDJmYjMiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NTk2NjUyNCwiYXVkIjoiVlBTIiwiaWF0IjoxNjg1ODgwMTE0LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYjk0NDgxODgtZGQ3Yy00ZGM1LWFmMTUtNjQ1MDgyOWRiMDdkIn0.Rvop6NTT4dQAxQHXP29mJZeVc9RL1q8LHwhmitdfT1wMbB81iCFXIZbWrDTFJ2XmYWRtNwY-L4tYLWs-7QHMpu1USAPcT-FlmQsFl13vEgoPoJn4JSpnHapClCQpRR63SsVbtZ_jVj_LPy3iq4oam69rjvuTht4-w3a-qa_f7n5yP7SU-1AGggcEfRGyKSyfUlqRoemb7Lf4oF9B-ftt5BW0g5M_SHbZRUhWbVlNAKcz_rvNXk1VS6Pqi6VP6iEzLXRJbnJFVoEWzzp9OlheyzdzTvc-EMaibNummCRxwXCvyCOwO5welk49r4g3ypyc4rxOmMsYHFf6G0vYGsfWq-pJgIFVHtZIrht2uWX3dFQke2tBmi1GdevzwHPoGqUMRcS7BaO5SCLnZ_Q2XHFqnY_qhoYxA9h4a8XqxT_517NaY3yH1UY6pq88OyqUCebD1hyBoYGgjtQjBu3Z1CMNm_4tEcPHeyvyb42clkx7wGqlUuIWaVU_pSwmmHh6lQ2CJJX_EeZCOv8ib8mc6sixAT86u9PZlBcYmPPoHfimwIR8ik66yqWMf4tqvLH4pz-enYY3YZ0SRI_BgkW3a4zmK13U76kY8VvqUdy_uwWHTQ7OsscNb1Dwka3Bd2ve0S8npkYjuOnEbx8PF_3MY6SF_OjIQek-MDFyyzMb07bVTWo',
+      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJmZmUyMmM4Ni1hM2E4LTQ3MmEtYTI3ZC04MzQyMWU0YjM1N2MiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NjA0NzkwMiwiYXVkIjoiVlBTIiwiaWF0IjoxNjg1OTYxNDkyLCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYzdlMDBlNjgtMWE1NS00OWM3LTlhZjUtODE0NzQ2YjE3ZjMzIn0.XdU1qoorSNXtOahxpCPbVrF4Yz_nWMDUiyjYDvG6PJ9UzIxBxlM5RBoKGzzUGaCHh3P9ePTaml-RYtwxacrqd8P4ZUvJDQCM_EJYsh-a342h-5OpksR4FjbCNbRDXjEPIag8eNBTufZiBbM99VLZO08KDZjtJNDdgScUvenDQc8RyVkise-r5ieYFiiDHwFtfwTV0LSdYFzQBzxfKMojdfxKxHEg-4TSTpCFyxjaNpNj6juqJDsCLY2-2e5X7Un8jQJvDTLql9QqP9-T_Br78_aMLKYGdzGfZo9AmiIKRUStqxzNErHTgSJswRXVpWWlIDANRIPpXoYMFz1f_XsePjbfdgUQOEcC4hu0iXpS385dkHfkv8Y3doCCN--pVNcrz_QYF3Z23nEnH65Mk43yag9dhju3-0Y4Co95Z1ciJeTK_y2NyIf6-LogThWRxUMSdbixwYVAwV--Rp2kUkEPfaQl6VIx4WKtSWFbN_TjbfxgLgiWq2ev1ySY0cpVNALWc63mqIjgKlWUJPmAGU-VNNRTHqo-y3eqzHiaoLpb4CRQ_3VJdDTdfRgbtYoPF324MSm0tVROmHOctBAC0UfXrNIWIOl4MY4kaMexnWNFtX-04_pcUvPznLHazGRkEL1NOhMBJQM95N85V8v9TB0BOsOjEAVucRSUZCFQ_fRPfU4',
       //   initPhrase: 'Запусти таймер для шахмат',
       //   getState: () => assistantStateRef.current,
       //   nativePanel: {
       //     defaultText: 'Покажи что-нибудь',
-      //     screenshotMode: false,
-      //     tabIndex: -1,
+      //     screenshotMode: true,
+      //     tabIndex: 1,
       //   },
       // });
     };
