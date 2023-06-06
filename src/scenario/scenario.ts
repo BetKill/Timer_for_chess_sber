@@ -26,8 +26,13 @@ const userScenario = createUserScenario({
         handle: setTime,
     },
 
+    setAnotherTime: {
+        match: regexp(/^(?:(?<hours>\d+) час(?:\s|$))?(?:(?<minutes>\d+) минут.(?:\s|$))?(?:(?<seconds>\d+) секунд.?(?:\s|$))?$/i, { normalized: true }),
+        handle: setTime,
+    },
+
     move: {
-        match: regexp(/^Сходить$/i),
+        match: regexp(/^(Сходить|Готовый)$/i),
         handle: move,
     },
 
@@ -70,7 +75,7 @@ export const handleNlpRequest = async (request: NLPRequest): Promise<NLPResponse
     const req = createSaluteRequest(request);
     const res = createSaluteResponse(request);
 
-    // console.log(req.request);
+    console.log(req.request);
     const sessionId = request.uuid.userId;
     const session = await storage.resolve(sessionId);
 

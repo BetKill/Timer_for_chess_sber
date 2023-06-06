@@ -61,9 +61,6 @@ const Timer = (props: any) => {
 };
 
 const ChessTimer = () => {
-  const [character, setCharacter] = useState('sber' as CharacterId);
-  const assistantStateRef = useRef<AssistantAppState>({});
-  const assistantRef = useRef<ReturnType<typeof createAssistant>>();
 
   const reducer = (state: any, action: any) => {
     switch (action.type) {
@@ -137,6 +134,10 @@ const ChessTimer = () => {
     }
   };
 
+  const [character, setCharacter] = useState('sber' as CharacterId);
+  const assistantStateRef = useRef<AssistantAppState>({});
+  const assistantRef = useRef<ReturnType<typeof createAssistant>>();
+  const [portrait, setIsPortrait] = useState(false)
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -146,14 +147,10 @@ const ChessTimer = () => {
       });
 
       // return createSmartappDebugger({
-      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJmZmUyMmM4Ni1hM2E4LTQ3MmEtYTI3ZC04MzQyMWU0YjM1N2MiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NjA0NzkwMiwiYXVkIjoiVlBTIiwiaWF0IjoxNjg1OTYxNDkyLCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiYzdlMDBlNjgtMWE1NS00OWM3LTlhZjUtODE0NzQ2YjE3ZjMzIn0.XdU1qoorSNXtOahxpCPbVrF4Yz_nWMDUiyjYDvG6PJ9UzIxBxlM5RBoKGzzUGaCHh3P9ePTaml-RYtwxacrqd8P4ZUvJDQCM_EJYsh-a342h-5OpksR4FjbCNbRDXjEPIag8eNBTufZiBbM99VLZO08KDZjtJNDdgScUvenDQc8RyVkise-r5ieYFiiDHwFtfwTV0LSdYFzQBzxfKMojdfxKxHEg-4TSTpCFyxjaNpNj6juqJDsCLY2-2e5X7Un8jQJvDTLql9QqP9-T_Br78_aMLKYGdzGfZo9AmiIKRUStqxzNErHTgSJswRXVpWWlIDANRIPpXoYMFz1f_XsePjbfdgUQOEcC4hu0iXpS385dkHfkv8Y3doCCN--pVNcrz_QYF3Z23nEnH65Mk43yag9dhju3-0Y4Co95Z1ciJeTK_y2NyIf6-LogThWRxUMSdbixwYVAwV--Rp2kUkEPfaQl6VIx4WKtSWFbN_TjbfxgLgiWq2ev1ySY0cpVNALWc63mqIjgKlWUJPmAGU-VNNRTHqo-y3eqzHiaoLpb4CRQ_3VJdDTdfRgbtYoPF324MSm0tVROmHOctBAC0UfXrNIWIOl4MY4kaMexnWNFtX-04_pcUvPznLHazGRkEL1NOhMBJQM95N85V8v9TB0BOsOjEAVucRSUZCFQ_fRPfU4',
-      //   initPhrase: 'Запусти таймер для шахмат',
+      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI1YWQ5YTRkZC0zNDJhLTQ0YmMtYTcyYi0zMzU3MTU4NzYxN2EiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NjE1MTcxNiwiYXVkIjoiVlBTIiwiaWF0IjoxNjg2MDY1MzA2LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiMDNjNDVlYTUtMGJmZi00OTY4LTk2NDMtMDAwOWRmMGI2NjhmIn0.tV4EjopDrf1PNqCP4iPjIYrmOjpTzH_h7f-jtk_ZrVQZfCKy_7EIC5mQswYK-0j_zDIkRIxhQ9QLrOD7Mvw4zF2A608mPEdydaBkzJpV-86KmzNSmKyQYjhs1O7CDQ7lhTA7zEe_s1jKeaNhq9q1qyvsvD5BuJI4l2d8KRJqKPMd6R1ABM3ytGZy7H1AMhT_eqPX5oE14p0gJKORn-8UXkSLHAjxddLJYX-vbgsuVe4bAtczPWsMTazuJBzaLh3wz9eVR4LEX9b99bona6kgwox2ombY5dnFilyzR0wn7LEuWsPZnSPPJRiX6_VA5gNVtUiuEas05BgxfHAG9i4lc3sFnaBHlH1zLK9NdPV6uTgDV5FqJTzdjKIoqmCyH_8doUnAyMnQvvZpIHNCX8ReuYDN8fXmzZJx-bCjP9GfMFnj2JP0_aA01DkNx9Fs8nfzKv_hPdcp0MmJweOXcKA9qIO4wfTyOLYDVvJh-rVc9OUaiMfkRXD8wM0h2jwnF_ul_FPahNTC218mtDLyNyYChbm_sCgtkBjgaxJXFA0KseaRQ6gDLtYx8XY_nTCCLg4rcV7qUB2a0lMurJBVqrZ-KYZwyfqO0lnVmr7Vp08t1IDJsUpMnvStt9G3NjLF0MTOtf1u34JJybEqOxu29lu-tC3dOpo0xRGlVgAWj7twmUo',
+      //   initPhrase: 'Запусти Таймер для шахмат',
       //   getState: () => assistantStateRef.current,
-      //   nativePanel: {
-      //     defaultText: 'Покажи что-нибудь',
-      //     screenshotMode: true,
-      //     tabIndex: 1,
-      //   },
+      //   surface: "STARGATE"
       // });
     };
 
@@ -192,6 +189,19 @@ const ChessTimer = () => {
     }
   }, [state.topTimer, state.bottomTimer])
 
+  const checkOrientation = () => {
+    if (window.matchMedia("(orientation: landscape)").matches) {
+      setIsPortrait(false)
+    }
+    else {
+      setIsPortrait(true)
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", checkOrientation, false);
+  }, []);
+
   const handleStart = (timer: any) => {
     dispatch({ type: "START", timer: timer });
   };
@@ -213,7 +223,7 @@ const ChessTimer = () => {
       {state.startMenu && <StartMenu hanleSetTime={hanleSetTime} />}
       {state.winner && <ResultMenu handleReset={handleReset} winner={state.winner} />}
       <div className={styles['timer-wrapper']}>
-        <Timer timerName="top" time={state.topTimer} isMirrored={true} handleStart={handleStart} color={"#33cdc7"} />
+        <Timer timerName="top" time={state.topTimer} isMirrored={portrait} handleStart={handleStart} color={"#33cdc7"} />
       </div>
       <div className={styles.buttonContainer}>
         <button onClick={handleReset} className={styles.resetButton}>

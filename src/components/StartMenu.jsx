@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
 import styles from '../styles/StartMenu.module.css'
 
-export default function StartMenu({hanleSetTime}) {
+export default function StartMenu({ hanleSetTime }) {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
   const handleHoursChange = (event) => {
-    setHours(parseInt(event.target.value));
+    if (parseInt(event.target.value) >= 23) {
+      setHours(parseInt(event.target.value) % 24);
+    }
+    else {
+      setHours(parseInt(event.target.value))
+    }
   };
 
   const handleMinutesChange = (event) => {
-    setMinutes(parseInt(event.target.value));
+    if (parseInt(event.target.value) >= 60) {
+      setMinutes(parseInt(event.target.value) % 60);
+    }
+    else {
+      setMinutes(parseInt(event.target.value))
+    }
   };
 
   const handleSecondsChange = (event) => {
-    setSeconds(parseInt(event.target.value));
+    if (parseInt(event.target.value) >= 60) {
+      setSeconds(parseInt(event.target.value) % 60);
+    }
+    else {
+      setSeconds(parseInt(event.target.value))
+    }
   };
 
   const handleCheck = () => {
@@ -32,29 +47,29 @@ export default function StartMenu({hanleSetTime}) {
           <h2>Установите таймер</h2>
           <label>
             Часы:
-            <select value={hours} onChange={handleHoursChange}>
-              {Array.from({ length: 24 }, (_, index) => (
-                <option key={index} value={index}>{index}</option>
-              ))}
-            </select>
+            <input type="number"
+              value={hours}
+              min='0'
+              onChange={handleHoursChange}
+              onKeyDown={(e) => e.preventDefault()}></input>
           </label>
           <br />
           <label>
             Минуты:
-            <select value={minutes} onChange={handleMinutesChange}>
-              {Array.from({ length: 60 }, (_, index) => (
-                <option key={index} value={index}>{index}</option>
-              ))}
-            </select>
+            <input type="number"
+              min='0'
+              value={minutes}
+              onChange={handleMinutesChange}
+              onKeyDown={(e) => e.preventDefault()}></input>
           </label>
           <br />
           <label>
             Секунды:
-            <select value={seconds} onChange={handleSecondsChange}>
-              {Array.from({ length: 60 }, (_, index) => (
-                <option key={index} value={index}>{index}</option>
-              ))}
-            </select>
+            <input type="number"
+              min='0'
+              value={seconds}
+              onChange={handleSecondsChange}
+              onKeyDown={(e) => e.preventDefault()}></input>
           </label>
           <br />
           <button onClick={() => handleCheck()}>Установить</button>
