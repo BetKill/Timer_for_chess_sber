@@ -37,7 +37,7 @@ const userScenario = createUserScenario({
     },
 
     chooseStart: {
-        match: regexp(/^(?:Начинать\s+)?(?<side>розовый|голубой)$/i, { normalized: true }),
+        match: regexp(/^(?:Начинать\s+)?(?<side>белый|черный)$/i, { normalized: true }),
         handle: chooseStart,
     },
 

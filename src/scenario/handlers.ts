@@ -53,8 +53,8 @@ export const help: SaluteHandler<SaluteRequest> = ({ req, res }) => {
             res.setPronounceText('Скажите время, которое хотите установить на таймере')
     } else if (screen === 'Middle') {
         req.character === 'joy' ?
-            res.setPronounceText('Для начала игры нужно сказать начинает розовый или голубой. Дальше по игре ты можешь сказать сходил или готово, когда совершишь ход') :
-            res.setPronounceText('Для начала игры нужно сказать начинает розовый или голубой. Дальше по игре вы можете сказать сходил или готово, когда совершите ход')
+            res.setPronounceText('Для начала игры нужно сказать начинает белый или черный. Дальше по игре ты можешь сказать сходил или готово, когда совершишь ход') :
+            res.setPronounceText('Для начала игры нужно сказать начинает белый или черный. Дальше по игре вы можете сказать сходил или готово, когда совершите ход')
     } else {
         req.character === 'joy' ?
             res.setPronounceText('Скажи, заново если ты хочешь начать игру сначала') :
@@ -73,6 +73,6 @@ export const result: SaluteHandler<SaluteRequest> = ({ req, res }) => {
 
 export const chooseStart: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     const { side } = req.variables;
-    var start = side === 'розовый' ? 'top' : 'bottom';
+    var start = side === 'белый' ? 'top' : 'bottom';
     res.appendCommand({ type: "START", timer: start });
 };

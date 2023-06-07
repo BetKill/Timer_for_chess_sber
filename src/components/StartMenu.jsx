@@ -4,33 +4,19 @@ import styles from '../styles/StartMenu.module.css'
 export default function StartMenu({ hanleSetTime }) {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const [seconds, setSeconds] = useState(1);
 
   const handleHoursChange = (event) => {
-    if (parseInt(event.target.value) >= 23) {
-      setHours(parseInt(event.target.value) % 24);
-    }
-    else {
-      setHours(parseInt(event.target.value))
-    }
+    setHours(parseInt(event.target.value))
   };
 
   const handleMinutesChange = (event) => {
-    if (parseInt(event.target.value) >= 60) {
-      setMinutes(parseInt(event.target.value) % 60);
-    }
-    else {
-      setMinutes(parseInt(event.target.value))
-    }
+    setMinutes(parseInt(event.target.value))
+
   };
 
   const handleSecondsChange = (event) => {
-    if (parseInt(event.target.value) >= 60) {
-      setSeconds(parseInt(event.target.value) % 60);
-    }
-    else {
-      setSeconds(parseInt(event.target.value))
-    }
+    setSeconds(parseInt(event.target.value))
   };
 
   const handleCheck = () => {
@@ -48,19 +34,19 @@ export default function StartMenu({ hanleSetTime }) {
           <label>
             Часы:
             <input type="number"
-              value={hours}
+              placeholder='0'
               min='0'
               onChange={handleHoursChange}
-              onKeyDown={(e) => e.preventDefault()}></input>
+            ></input>
           </label>
           <br />
           <label>
             Минуты:
             <input type="number"
+              placeholder='0'
               min='0'
-              value={minutes}
               onChange={handleMinutesChange}
-              onKeyDown={(e) => e.preventDefault()}></input>
+            ></input>
           </label>
           <br />
           <label>
@@ -69,7 +55,7 @@ export default function StartMenu({ hanleSetTime }) {
               min='0'
               value={seconds}
               onChange={handleSecondsChange}
-              onKeyDown={(e) => e.preventDefault()}></input>
+            ></input>
           </label>
           <br />
           <button onClick={() => handleCheck()}>Установить</button>

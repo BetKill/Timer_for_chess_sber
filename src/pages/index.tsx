@@ -42,6 +42,7 @@ const Timer = (props: any) => {
     fontSize: "50px",
     fontWeight: "bold",
     backgroundColor: `${color}`,
+    color: color === "#FFFFFF" ? "black" : "white",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
@@ -100,7 +101,7 @@ const ChessTimer = () => {
         return state;
       case 'RESULT':
         if (state.topTimer === 0 || state.bottomTimer === 0) {
-          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ? 'Победил розовый' : 'Победил голубой' } })
+          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ? 'Победил белый' : 'Победил черный' } })
           return {
             ...state,
             resultMenu: true,
@@ -142,16 +143,16 @@ const ChessTimer = () => {
 
   useEffect(() => {
     const initializeAssistant = () => {
-      return createAssistant({
-        getState: () => assistantStateRef.current,
-      });
-
-      // return createSmartappDebugger({
-      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI1YWQ5YTRkZC0zNDJhLTQ0YmMtYTcyYi0zMzU3MTU4NzYxN2EiLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NjE1MTcxNiwiYXVkIjoiVlBTIiwiaWF0IjoxNjg2MDY1MzA2LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiMDNjNDVlYTUtMGJmZi00OTY4LTk2NDMtMDAwOWRmMGI2NjhmIn0.tV4EjopDrf1PNqCP4iPjIYrmOjpTzH_h7f-jtk_ZrVQZfCKy_7EIC5mQswYK-0j_zDIkRIxhQ9QLrOD7Mvw4zF2A608mPEdydaBkzJpV-86KmzNSmKyQYjhs1O7CDQ7lhTA7zEe_s1jKeaNhq9q1qyvsvD5BuJI4l2d8KRJqKPMd6R1ABM3ytGZy7H1AMhT_eqPX5oE14p0gJKORn-8UXkSLHAjxddLJYX-vbgsuVe4bAtczPWsMTazuJBzaLh3wz9eVR4LEX9b99bona6kgwox2ombY5dnFilyzR0wn7LEuWsPZnSPPJRiX6_VA5gNVtUiuEas05BgxfHAG9i4lc3sFnaBHlH1zLK9NdPV6uTgDV5FqJTzdjKIoqmCyH_8doUnAyMnQvvZpIHNCX8ReuYDN8fXmzZJx-bCjP9GfMFnj2JP0_aA01DkNx9Fs8nfzKv_hPdcp0MmJweOXcKA9qIO4wfTyOLYDVvJh-rVc9OUaiMfkRXD8wM0h2jwnF_ul_FPahNTC218mtDLyNyYChbm_sCgtkBjgaxJXFA0KseaRQ6gDLtYx8XY_nTCCLg4rcV7qUB2a0lMurJBVqrZ-KYZwyfqO0lnVmr7Vp08t1IDJsUpMnvStt9G3NjLF0MTOtf1u34JJybEqOxu29lu-tC3dOpo0xRGlVgAWj7twmUo',
-      //   initPhrase: 'Запусти Таймер для шахмат',
+      checkOrientation()
+      // return createAssistant({
       //   getState: () => assistantStateRef.current,
-      //   surface: "STARGATE"
       // });
+      return createSmartappDebugger({
+        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJjNTYzMTc4Zi0xZGJhLTRiMDMtODNmYi1hMjI2NjkxNWI3MDciLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NjIxNzc3NywiYXVkIjoiVlBTIiwiaWF0IjoxNjg2MTMxMzY3LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiNWUxYmE2MDgtY2UzZS00ODIxLWIwOTctZDM1NzI2YWEwMWJkIn0.mWrMCtT4N1FFpoZwFoY0ouoQLRCZnSSCYYRys90atAGsgS6uyZTS21QUBm0Z20Hjd2iI_q0QQyML-W2-Y4h1OO_Jk2DZyECT-XDgThIMfpZd4gqJcVW9P1GdPkXTvLtfYzcMQqT29MXNlZBDR1FyfCd6bq-yNNI7buwaz3O-4TukNtu1h2yZR1qUvFmXNWVjNTQa-53GSJAap6-Uv1OQhopwat0jCWsLmravfN_0taktt06xHZ8ME6c0qfP5WxTjJA4MsgoxYS2KSPrd5rGM1XusTWoZChFCoSagw6XeiDXYXREahK7qfbv5NgIFYKCAolqF4RK-79pVCAB9jnv7RDuEIU5MP2tP0F7wZR2hsivjK0zMKOfnpjyNxQUtSaKugkKVaOIPDTqqDBB1KlRhEvsHid593XEVGKULNo1fN6AK1DBi89FE7WmD9MlcrNcxpYNnDQfBYGtG02UcbodON-SHIDliIx-qaG8RPT7Fx9YaQdv7gLBpxcaHzlIZ8JO_U3wZ7rLoWx6sIYCdK7x9P4ofj79u9unukzGA3jUCWc1zMDhtgXLZ6w1OIQaKYaEs0kGSVTuteO5jW0bDSgVUwFE4RbZJ991dspc59RHlbXFAJbrdZ5OKTC2F93au3XP_wN4jsyfiKKUpsKfXnGRt7cooyp3yqUkVPzFK-2JsXxI',
+        initPhrase: 'Запусти Таймер для шахмат',
+        getState: () => assistantStateRef.current,
+        surface: "STARGATE"
+      });
     };
 
     const assistant = initializeAssistant();
@@ -184,7 +185,7 @@ const ChessTimer = () => {
 
   useEffect(() => {
     if (state.topTimer === 0 || state.bottomTimer === 0) {
-      const winner = state.topTimer === 0 ? 'Победил розовый' : 'Победил голубой'
+      const winner = state.topTimer === 0 ? 'Победил белый' : 'Победил черный'
       dispatch({ type: "RESULT", winner: winner })
     }
   }, [state.topTimer, state.bottomTimer])
@@ -200,7 +201,7 @@ const ChessTimer = () => {
 
   useEffect(() => {
     window.addEventListener("resize", checkOrientation, false);
-  }, []);
+  },[]);
 
   const handleStart = (timer: any) => {
     dispatch({ type: "START", timer: timer });
@@ -223,7 +224,7 @@ const ChessTimer = () => {
       {state.startMenu && <StartMenu hanleSetTime={hanleSetTime} />}
       {state.winner && <ResultMenu handleReset={handleReset} winner={state.winner} />}
       <div className={styles['timer-wrapper']}>
-        <Timer timerName="top" time={state.topTimer} isMirrored={portrait} handleStart={handleStart} color={"#33cdc7"} />
+        <Timer timerName="top" time={state.topTimer} isMirrored={portrait} handleStart={handleStart} color={"#000000"} />
       </div>
       <div className={styles.buttonContainer}>
         <button onClick={handleReset} className={styles.resetButton}>
@@ -234,7 +235,7 @@ const ChessTimer = () => {
         </button>
       </div>
       <div className={styles['timer-wrapper']}>
-        <Timer timerName="bottom" time={state.bottomTimer} handleStart={handleStart} color={"#e567b1b3"} />
+        <Timer timerName="bottom" time={state.bottomTimer} handleStart={handleStart} color={"#FFFFFF"} />
       </div>
     </div>
   );
