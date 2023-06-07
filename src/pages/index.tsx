@@ -101,7 +101,7 @@ const ChessTimer = () => {
         return state;
       case 'RESULT':
         if (state.topTimer === 0 || state.bottomTimer === 0) {
-          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ? 'Победил белый' : 'Победил черный' } })
+          assistantRef.current?.sendAction({ type: "result", payload: { "winner": state.topTimer === 0 ? 'Победили белые' : 'Победили черные' } })
           return {
             ...state,
             resultMenu: true,
@@ -185,7 +185,7 @@ const ChessTimer = () => {
 
   useEffect(() => {
     if (state.topTimer === 0 || state.bottomTimer === 0) {
-      const winner = state.topTimer === 0 ? 'Победил белый' : 'Победил черный'
+      const winner = state.topTimer === 0 ? 'Победили белые' : 'Победили черные'
       dispatch({ type: "RESULT", winner: winner })
     }
   }, [state.topTimer, state.bottomTimer])
