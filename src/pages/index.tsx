@@ -144,15 +144,15 @@ const ChessTimer = () => {
   useEffect(() => {
     const initializeAssistant = () => {
       checkOrientation()
-      // return createAssistant({
-      //   getState: () => assistantStateRef.current,
-      // });
-      return createSmartappDebugger({
-        token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJjNTYzMTc4Zi0xZGJhLTRiMDMtODNmYi1hMjI2NjkxNWI3MDciLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NjIxNzc3NywiYXVkIjoiVlBTIiwiaWF0IjoxNjg2MTMxMzY3LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiNWUxYmE2MDgtY2UzZS00ODIxLWIwOTctZDM1NzI2YWEwMWJkIn0.mWrMCtT4N1FFpoZwFoY0ouoQLRCZnSSCYYRys90atAGsgS6uyZTS21QUBm0Z20Hjd2iI_q0QQyML-W2-Y4h1OO_Jk2DZyECT-XDgThIMfpZd4gqJcVW9P1GdPkXTvLtfYzcMQqT29MXNlZBDR1FyfCd6bq-yNNI7buwaz3O-4TukNtu1h2yZR1qUvFmXNWVjNTQa-53GSJAap6-Uv1OQhopwat0jCWsLmravfN_0taktt06xHZ8ME6c0qfP5WxTjJA4MsgoxYS2KSPrd5rGM1XusTWoZChFCoSagw6XeiDXYXREahK7qfbv5NgIFYKCAolqF4RK-79pVCAB9jnv7RDuEIU5MP2tP0F7wZR2hsivjK0zMKOfnpjyNxQUtSaKugkKVaOIPDTqqDBB1KlRhEvsHid593XEVGKULNo1fN6AK1DBi89FE7WmD9MlcrNcxpYNnDQfBYGtG02UcbodON-SHIDliIx-qaG8RPT7Fx9YaQdv7gLBpxcaHzlIZ8JO_U3wZ7rLoWx6sIYCdK7x9P4ofj79u9unukzGA3jUCWc1zMDhtgXLZ6w1OIQaKYaEs0kGSVTuteO5jW0bDSgVUwFE4RbZJ991dspc59RHlbXFAJbrdZ5OKTC2F93au3XP_wN4jsyfiKKUpsKfXnGRt7cooyp3yqUkVPzFK-2JsXxI',
-        initPhrase: 'Запусти Таймер для шахмат',
+      return createAssistant({
         getState: () => assistantStateRef.current,
-        surface: "STARGATE"
       });
+      // return createSmartappDebugger({
+      //   token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJjNTYzMTc4Zi0xZGJhLTRiMDMtODNmYi1hMjI2NjkxNWI3MDciLCJzdWIiOiI0ZjQ2MzcyZDQ5MzAxZTkyOTU4ZTAwMDUyZmU5YmFkYjQyNjI4MjJjMDgxZGVkZGFjMmUzNWU3YzYwZmZiOWRhNTM5YmU5MjcwMDQyNjI5OCIsImlzcyI6IktFWU1BU1RFUiIsImV4cCI6MTY4NjIxNzc3NywiYXVkIjoiVlBTIiwiaWF0IjoxNjg2MTMxMzY3LCJ0eXBlIjoiQmVhcmVyIiwic2lkIjoiNWUxYmE2MDgtY2UzZS00ODIxLWIwOTctZDM1NzI2YWEwMWJkIn0.mWrMCtT4N1FFpoZwFoY0ouoQLRCZnSSCYYRys90atAGsgS6uyZTS21QUBm0Z20Hjd2iI_q0QQyML-W2-Y4h1OO_Jk2DZyECT-XDgThIMfpZd4gqJcVW9P1GdPkXTvLtfYzcMQqT29MXNlZBDR1FyfCd6bq-yNNI7buwaz3O-4TukNtu1h2yZR1qUvFmXNWVjNTQa-53GSJAap6-Uv1OQhopwat0jCWsLmravfN_0taktt06xHZ8ME6c0qfP5WxTjJA4MsgoxYS2KSPrd5rGM1XusTWoZChFCoSagw6XeiDXYXREahK7qfbv5NgIFYKCAolqF4RK-79pVCAB9jnv7RDuEIU5MP2tP0F7wZR2hsivjK0zMKOfnpjyNxQUtSaKugkKVaOIPDTqqDBB1KlRhEvsHid593XEVGKULNo1fN6AK1DBi89FE7WmD9MlcrNcxpYNnDQfBYGtG02UcbodON-SHIDliIx-qaG8RPT7Fx9YaQdv7gLBpxcaHzlIZ8JO_U3wZ7rLoWx6sIYCdK7x9P4ofj79u9unukzGA3jUCWc1zMDhtgXLZ6w1OIQaKYaEs0kGSVTuteO5jW0bDSgVUwFE4RbZJ991dspc59RHlbXFAJbrdZ5OKTC2F93au3XP_wN4jsyfiKKUpsKfXnGRt7cooyp3yqUkVPzFK-2JsXxI',
+      //   initPhrase: 'Запусти Таймер для шахмат',
+      //   getState: () => assistantStateRef.current,
+      //   surface: "STARGATE"
+      // });
     };
 
     const assistant = initializeAssistant();
