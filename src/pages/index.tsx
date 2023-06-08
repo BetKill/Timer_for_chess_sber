@@ -201,14 +201,14 @@ const ChessTimer = () => {
 
   useEffect(() => {
     window.addEventListener("resize", checkOrientation, false);
-  },[]);
+  }, []);
 
   const handleStart = (timer: any) => {
     dispatch({ type: "START", timer: timer });
   };
 
   const handleReset = () => {
-    dispatch({ type: "RESET" });
+    assistantRef.current?.sendAction({ type: "restart" })
   };
 
   const hanleSetTime = (time: any) => {

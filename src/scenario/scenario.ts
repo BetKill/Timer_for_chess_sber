@@ -53,8 +53,12 @@ const userScenario = createUserScenario({
     result: {
         match: action('result'),
         handle: result
-    }
+    },
 
+    button_restart: {
+        match: action('reset'),
+        handle: restart,
+    }
 
 });
 

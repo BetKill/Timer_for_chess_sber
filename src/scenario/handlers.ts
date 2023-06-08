@@ -21,8 +21,8 @@ export const closeAppHander: SaluteHandler<SaluteRequest> = ({ req, res }) => {
 export const restart: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     res.appendCommand({ type: 'RESET' })
     req.character === 'joy' ?
-        res.setPronounceText("Скажи, на какое время установить таймер.") :
-        res.setPronounceText("Скажите, на какое время установить таймер.")
+        res.setPronounceText("Скажи, на какое время установить таймер. Например, поставь одну минуту или одна минута") :
+        res.setPronounceText("Скажите, на какое время установить таймер. Например, поставь одну минуту или одна минута")
     res.appendSuggestions(['Поставь 2 часа', '1 час 30 минут'])
 
 };
