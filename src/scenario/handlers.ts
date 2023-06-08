@@ -3,8 +3,8 @@ import { SaluteHandler, SaluteRequest } from '@salutejs/scenario';
 
 export const runAppHandler: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     req.character === 'joy' ?
-        res.setPronounceText("Приветствую тебя. Скажи, на какое время установить таймер. Например поставь 1 минуту или одна минута") :
-        res.setPronounceText("Приветствую вас. Скажите, на какое время установить таймер. Например поставь 1 минуту или одна минута")
+        res.setPronounceText("Приветствую тебя. Скажи, на какое время установить таймер. Например, поставь одну минуту или одна минута") :
+        res.setPronounceText("Приветствую вас. Скажите, на какое время установить таймер. Например, поставь одну минуту или одна минута")
     res.appendSuggestions(['Поставь 2 часа', '1 час 30 минут'])
     res.setEmotion('radost')
 };
@@ -49,8 +49,8 @@ export const help: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     const { screen } = req.variables;
     if (screen === 'Start') {
         req.character === 'joy' ?
-            res.setPronounceText('Скажи время, которое хочешь установить на таймере') :
-            res.setPronounceText('Скажите время, которое хотите установить на таймере')
+            res.setPronounceText('Скажи время, которое хочешь установить на таймере. Например, поставь одну минуту или одна минута') :
+            res.setPronounceText('Скажите время, которое хотите установить на таймере. Например, поставь одну минуту или одна минута')
     } else if (screen === 'Middle') {
         req.character === 'joy' ?
             res.setPronounceText('Для начала игры нужно сказать начинают белые или черные. Дальше по игре ты можешь сказать сходил или готово, когда совершишь ход') :
