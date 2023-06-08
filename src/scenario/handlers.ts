@@ -3,10 +3,9 @@ import { SaluteHandler, SaluteRequest } from '@salutejs/scenario';
 
 export const runAppHandler: SaluteHandler<SaluteRequest> = ({ req, res }) => {
     req.character === 'joy' ?
-        res.setPronounceText("Приветствую тебя. Скажи, на какое время установить таймер.") :
-        res.setPronounceText("Приветствую вас. Скажите, на какое время установить таймер.")
+        res.setPronounceText("Приветствую тебя. Скажи, на какое время установить таймер. Например поставь 1 минуту или одна минута") :
+        res.setPronounceText("Приветствую вас. Скажите, на какое время установить таймер. Например поставь 1 минуту или одна минута")
     res.appendSuggestions(['Поставь 2 часа', '1 час 30 минут'])
-    res.appendBubble('Поставь h часов m минут s секунд');
     res.setEmotion('radost')
 };
 
