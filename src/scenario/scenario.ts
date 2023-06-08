@@ -56,7 +56,7 @@ const userScenario = createUserScenario({
     },
 
     button_restart: {
-        match: action('reset'),
+        match: action('restart'),
         handle: restart,
     }
 
