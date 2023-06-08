@@ -7,7 +7,7 @@ export default function ResultMenu({ handleReset, winner }) {
             <div className={styles['modal-container']}>
                 <div className={styles['modal-content']}>
                     <p>{winner}</p>
-                    <button onClick={handleReset}>Закрыть</button>
+                    <button onClick={handleReset}>Заново</button>
                 </div>
             </div>
         </div>
