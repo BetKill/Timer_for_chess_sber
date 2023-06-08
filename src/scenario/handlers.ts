@@ -6,6 +6,7 @@ export const runAppHandler: SaluteHandler<SaluteRequest> = ({ req, res }) => {
         res.setPronounceText("Приветствую тебя. Скажи, на какое время установить таймер.") :
         res.setPronounceText("Приветствую вас. Скажите, на какое время установить таймер.")
     res.appendSuggestions(['Поставь 2 часа', '1 час 30 минут'])
+    res.appendBubble('Поставь h часов m минут s секунд');
     res.setEmotion('radost')
 };
 
